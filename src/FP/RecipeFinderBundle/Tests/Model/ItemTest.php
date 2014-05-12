@@ -3,7 +3,6 @@
 namespace FP\RecipeFinderBundle\Tests\Model;
 
 use FP\RecipeFinderBundle\Model\Item;
-use FP\RecipeFinderBundle\Exception\InvalidDateFormatException;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,6 +31,16 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 		$item->setUnit($unit);
 
 		$this->assertEquals($unit, $item->getUnit());
+	}
+
+	public function testSetUnitInvalidType()
+	{
+		$this->setExpectedException('\FP\RecipeFinderBundle\Exception\InvalidUnitTypeException');
+
+		// invalid unit type
+		$unit = "not-valid";
+		$item = new Item();
+		$item->setUnit($unit);
 	}
 
 	public function testSetUseByDate()

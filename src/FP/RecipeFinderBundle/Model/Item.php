@@ -3,6 +3,7 @@
 namespace FP\RecipeFinderBundle\Model;
 
 use FP\RecipeFinderBundle\Exception\InvalidDateFormatException;
+use FP\RecipeFinderBundle\Exception\InvalidUnitTypeException;
 
 class Item
 {
@@ -74,7 +75,12 @@ class Item
 	public function setUnit($unit) 
 	{
 		// check for allowed types here, or throw exception
-	    $this->unit = $unit;
+		$allowedUnitTypes = array("of", "grams", "ml", "slices");
+		if (in_array($unit, $allowedUnitTypes)) {
+	    	$this->unit = $unit;
+		} else {
+			throw new InvalidUnitTypeException("Invalid unit passed. Must one of the following: (of, grams, ml, slices)");
+		}
 	
 	    return $this;
 	}
