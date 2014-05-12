@@ -3,6 +3,7 @@
 namespace FP\RecipeFinderBundle\Tests\Model;
 
 use FP\RecipeFinderBundle\Model\Item;
+use FP\RecipeFinderBundle\Exception\InvalidDateFormatException;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,6 +41,16 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 		$item->setUseByDate($date);
 
 		$this->assertEquals($date, $item->getUseByDate());
+	}
+
+	public function testSetUseByDateInvalidDate()
+	{
+		$this->setExpectedException('\FP\RecipeFinderBundle\Exception\InvalidDateFormatException');
+
+		// invalid date format (not dd/mm/yyyy)
+		$date = "2014-12-25";
+		$item = new Item();
+		$item->setUseBydate($date);
 	}
 
 	public function testConstructor()
