@@ -1,0 +1,7 @@
+fp_recipe_finder:
+    resource: "@FPRecipeFinderBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+
