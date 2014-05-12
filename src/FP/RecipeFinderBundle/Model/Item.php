@@ -2,6 +2,8 @@
 
 namespace FP\RecipeFinderBundle\Model;
 
+use FP\RecipeFinderBundle\Exception\InvalidDateFormatException;
+
 class Item
 {
 	// ==================================================================
@@ -101,6 +103,8 @@ class Item
 			$date = sprintf("%d-%d-%d", $dateArray[2], $dateArray[1], $dateArray[0]);
 
 			$this->useByDate = new \DateTime($date);
+		} else {
+			throw new InvalidDateFormatException("Invalid date passed. Please use (dd/mm/yyyy)");
 		}
 	
 	    return $this;
@@ -119,11 +123,19 @@ class Item
 		$useByDate = null
 	)
 	{
-		$this
-			->setName($name)
-			->setAmount($amount)
-			->setUnit($unit)
-			->setUseByDate($useByDate);
+		// only add properties if they aren't null
+		if ($name) {
+			$this->setName($name);
+		}
+		if ($amount) {
+			$this->setAmount($amount);
+		}
+		if ($unit) {
+			$this->setUnit($unit);
+		}
+		if ($useByDate) {
+			$this->setUseByDate($useByDate);
+		}
 	}
 	
 }
