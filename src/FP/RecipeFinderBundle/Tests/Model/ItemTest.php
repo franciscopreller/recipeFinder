@@ -24,6 +24,15 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($amount, $item->getAmount());
 	}
 
+	public function testSetAmountInvalid()
+	{
+		$this->setExpectedException('\FP\RecipeFinderBundle\Exception\InvalidAmountException');
+
+		$amount = "whiskey";
+		$item = new Item();
+		$item->setAmount($amount);
+	}
+
 	public function testSetUnit()
 	{
 		$unit = "slices";
@@ -75,5 +84,23 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($amount, $item->getAmount());
 		$this->assertEquals($unit, $item->getUnit());
 		$this->assertEquals($useByDate, $item->getUseByDate());
+	}
+
+	public function testIsExpired()
+	{
+		// date in the past
+		$date = "01/01/2000";
+		$item = new Item();
+		$item->setUseByDate($date);
+
+		// should be expired
+		$this->assertTrue($item->isExpired());
+
+		// date in the future
+		$date = "01/01/3000";
+		$item->setUseByDate($date);
+
+		// should not be expired
+		$this->assertFalse($item->isExpired());
 	}
 }

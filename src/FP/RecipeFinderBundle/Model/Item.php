@@ -4,7 +4,12 @@ namespace FP\RecipeFinderBundle\Model;
 
 use FP\RecipeFinderBundle\Exception\InvalidDateFormatException;
 use FP\RecipeFinderBundle\Exception\InvalidUnitTypeException;
+use FP\RecipeFinderBundle\Exception\InvalidAmountException;
 
+/**
+ * I have chosen to use plain PHP objects for data storage for this application
+ * although this could obviously also be achieved using Doctrine or another ORM.
+ */
 class Item
 {
 	// ==================================================================
@@ -52,7 +57,11 @@ class Item
 	 */
 	public function setAmount($amount) 
 	{
-	    $this->amount = (int) $amount;
+		if (is_numeric($amount)) {
+	    	$this->amount = (int) $amount;
+		} else {
+			throw new InvalidAmountException("Invalid amount passed. Please use a numeric value.");
+		}
 	
 	    return $this;
 	}
@@ -142,6 +151,11 @@ class Item
 		if ($useByDate) {
 			$this->setUseByDate($useByDate);
 		}
+	}
+
+	public function isExpired()
+	{
+		return ($this->useByDate < new \DateTime());
 	}
 	
 }
