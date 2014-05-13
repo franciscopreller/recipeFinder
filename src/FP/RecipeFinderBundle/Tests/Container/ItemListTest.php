@@ -92,4 +92,33 @@ class ItemListTest extends \PHPUnit_Framework_TestCase
 		// item's name should equal cheese
 		$this->assertEquals("cheese", $this->list->where("useByDate", ">", "26/12/2014")->first()->name);
 	}
+
+	public function testMultipleWhereStatements()
+	{
+		$this->list->add(new Item("bread", 10, "slices", "25/12/2014"));
+		$this->list->add(new Item("cheese", 10, "slices", "28/12/2014"));
+		$this->list->add(new Item("butter", 250, "grams", "25/12/2014"));
+
+		// should return 2 items
+		$items = $this->list
+			->where("unit", "=", "slices")
+			->where("amount", ">", 5)
+			->get();
+		$this->assertCount(2, $items);
+
+		// should return 1 item
+		$items = $this->list
+			->where("useByDate", "<", "27/12/2014")
+			->where("unit", "=", "slices")
+			->get();
+		$this->assertCount(1, $items);
+
+		// should be "bread"
+		$item = $this->list
+			->where("useByDate", "<", "27/12/2014")
+			->where("unit", "=", "slices")
+			->first();
+		$this->assertEquals("bread", $item->name);
+	}
+
 }
