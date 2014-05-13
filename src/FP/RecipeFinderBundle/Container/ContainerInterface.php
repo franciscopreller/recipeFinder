@@ -10,6 +10,8 @@ interface ContainerInterface
 
 	public function first();
 
+	public function count();
+
 	public function remove($item);
 
 	public function whereAttribute($attribute, $value);

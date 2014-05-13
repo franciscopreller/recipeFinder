@@ -23,23 +23,40 @@ class Container implements ContainerInterface {
 
 	public function get()
 	{
+		if (!$this->dirty) {
+			return $this->items;
+		}
 		$this->dirty = false;
 
 		if ($this->results) {
 			return $this->results;
 		} else {
-			return $this->items;
+			return array();
 		}
 	}
 
 	public function first()
 	{
+		if (!$this->dirty) {
+			return (!empty($this->items)) ? $this->items[0] : null;
+		}
 		$this->dirty = false;
 
 		if ($this->results) {
 			return array_values($this->results)[0];
 		} else {
-			return array_values($this->items)[0];
+			return null;
+		}
+	}
+
+	public function count()
+	{
+		$this->dirty = false;
+
+		if ($this->results) {
+			return count($this->results);
+		} else {
+			return count($this->items);
 		}
 	}
 
