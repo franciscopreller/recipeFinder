@@ -63,9 +63,10 @@ class CSVItemsParser {
 			}
 
 			return $data;
-		} else {
-
 		}
+
+		// no columns, no format
+		return $this->getPlainData();
 	}
 
 
