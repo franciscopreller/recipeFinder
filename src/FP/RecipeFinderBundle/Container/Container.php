@@ -8,6 +8,7 @@ class Container implements ContainerInterface {
 
 	protected $items;
 	protected $results;
+	protected $dirty;
 
 	public function __construct()
 	{
@@ -22,13 +23,20 @@ class Container implements ContainerInterface {
 
 	public function get()
 	{
-		return ($this->results) ?: $this->items;
+		$this->dirty = false;
+
+		if ($this->results) {
+			return $this->results;
+		} else {
+			return $this->items;
+		}
 	}
 
 	public function first()
 	{
+		$this->dirty = false;
+
 		if ($this->results) {
-			ksort($this->results);
 			return array_values($this->results)[0];
 		} else {
 			return array_values($this->items)[0];
@@ -48,8 +56,9 @@ class Container implements ContainerInterface {
 
 	public function whereAttribute($attribute, $value)
 	{
+		$items = $this->getQueryItems();
 		$this->results = array_filter(
-			$this->items,
+			$items,
 			function ($e) use (&$value, &$attribute) {
 				return $e->{$attribute} === $value;
 			}
@@ -60,14 +69,25 @@ class Container implements ContainerInterface {
 
 	public function where($attribute, $operator, $value)
 	{
+		$items = $this->getQueryItems();
 		$this->results = array_filter(
-			$this->items,
+			$items,
 			function ($e) use (&$attribute, &$operator, &$value) {
 				return $this->performOperatorComparison($e->{$attribute}, $operator, $value);
 			}
 		);
 
 		return $this;
+	}
+
+	private function getQueryItems()
+	{
+		if (!$this->dirty) {
+			$this->dirty = true;
+			return $this->items;
+		} else {
+			return $this->results;
+		}
 	}
 
 	private function performOperatorComparison($item, $operator, $otherItem)
