@@ -6,101 +6,71 @@ use FP\RecipeFinderBundle\Model\Item;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
+	public function setUp()
+	{
+		$this->item = new Item();
+	}
+
 	public function testSetName()
 	{
-		$name = "bananas";
-		$item = new Item();
-		$item->setName($name);
-
-		$this->assertEquals($name, $item->getName());
+		$this->item->setName("bananas");
+		$this->assertEquals("bananas", $this->item->getName());
 	}
 
 	public function testSetAmount()
 	{
-		$amount = 10;
-		$item = new Item();
-		$item->setAmount($amount);
-
-		$this->assertEquals($amount, $item->getAmount());
+		$this->item->setAmount(10);
+		$this->assertEquals(10, $this->item->getAmount());
 	}
 
 	public function testSetAmountInvalid()
 	{
 		$this->setExpectedException('\FP\RecipeFinderBundle\Exception\InvalidAmountException');
-
-		$amount = "whiskey";
-		$item = new Item();
-		$item->setAmount($amount);
+		$this->item->setAmount("notAnAmount");
 	}
 
 	public function testSetUnit()
 	{
-		$unit = "slices";
-		$item = new Item();
-		$item->setUnit($unit);
-
-		$this->assertEquals($unit, $item->getUnit());
+		$this->item->setUnit("slices");
+		$this->assertEquals("slices", $this->item->getUnit());
 	}
 
 	public function testSetUnitInvalidType()
 	{
 		$this->setExpectedException('\FP\RecipeFinderBundle\Exception\InvalidUnitTypeException');
-
-		// invalid unit type
-		$unit = "not-valid";
-		$item = new Item();
-		$item->setUnit($unit);
+		$this->item->setUnit("NotAUnit");
 	}
 
 	public function testSetUseByDate()
 	{
-		$date = "25/12/2014";
-		$item = new Item();
-		$item->setUseByDate($date);
-
-		$this->assertEquals($date, $item->getUseByDate());
+		$this->item->setUseByDate("25/12/2014");
+		$this->assertEquals("25/12/2014", $this->item->getUseByDate());
 	}
 
 	public function testSetUseByDateInvalidDate()
 	{
 		$this->setExpectedException('\FP\RecipeFinderBundle\Exception\InvalidDateFormatException');
-
-		// invalid date format (not dd/mm/yyyy)
-		$date = "2014-12-25";
-		$item = new Item();
-		$item->setUseBydate($date);
+		$this->item->setUseBydate("2014-12-25");
 	}
 
 	public function testConstructor()
 	{
-		$name      = "bread";
-		$amount    = 5;
-		$unit      = "slices";
-		$useByDate = "25/12/2014";
+		$item = new Item("bread", 5, "slices", "25/12/2014");
 
-		$item = new Item($name, $amount, $unit, $useByDate);
-
-		$this->assertEquals($name, $item->getName());
-		$this->assertEquals($amount, $item->getAmount());
-		$this->assertEquals($unit, $item->getUnit());
-		$this->assertEquals($useByDate, $item->getUseByDate());
+		$this->assertEquals("bread", $item->getName());
+		$this->assertEquals(5, $item->getAmount());
+		$this->assertEquals("slices", $item->getUnit());
+		$this->assertEquals("25/12/2014", $item->getUseByDate());
 	}
 
 	public function testIsExpired()
 	{
-		// date in the past
-		$date = "01/01/2000";
-		$item = new Item();
-		$item->setUseByDate($date);
-
+		$this->item->setUseByDate("01/01/2000");
 		// should be expired
-		$this->assertTrue($item->isExpired());
+		$this->assertTrue($this->item->isExpired());
 
-		// date in the future
-		$date = "01/01/3000";
-		$item->setUseByDate($date);
-
+		$this->item->setUseByDate("01/01/3000");
 		// should not be expired
-		$this->assertFalse($item->isExpired());
+		$this->assertFalse($this->item->isExpired());
 	}
 }
