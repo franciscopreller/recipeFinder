@@ -2,6 +2,9 @@
 
 namespace FP\RecipeFinderBundle\Service;
 
+use FP\RecipeFinderBundle\Model\Item;
+use FP\RecipeFinderBundle\Container\ItemList;
+
 class CSVItemsParser {
 	
 	protected $data;
@@ -10,26 +13,6 @@ class CSVItemsParser {
 	public function __construct($data)
 	{
 		$this->data = $data;
-	}
-
-	/**
-	 * Gets the columns
-	 *
-	 * @return array The CSV sheet's columns
-	 */
-	public function getColumns() {
-	    return $this->columns;
-	}
-	
-	/**
-	 * Sets the columns
-	 *
-	 * @param Array $newcolumns The CSV sheet's columns
-	 */
-	public function setColumns($columns) {
-	    $this->columns = $columns;
-	
-	    return $this;
 	}
 
 	/**
@@ -50,24 +33,43 @@ class CSVItemsParser {
 
 	/**
 	 * Gets the formatted data from the csv
+	 * @param array $columns An array of column names
 	 *
-	 * @return 
+	 * @return object A data object
 	 */
-	public function getFormattedData()
+	public function getFormattedData($columns)
 	{
-		if ($this->columns) {
-			$data = array();
-			$rows = $this->getPlainData();
-			foreach($rows as $row) {
-				$data[] = (object) array_combine($this->columns, $row);
-			}
-
-			return $data;
+		$data = array();
+		$rows = $this->getPlainData();
+		foreach($rows as $row) {
+			$data[] = (object) array_combine($columns, $row);
 		}
 
-		// no columns, no format
-		return $this->getPlainData();
+		return $data;
 	}
 
+	public function getItemList(ItemList $list)
+	{
+		// Just going to hard code columns here due to time constraint,
+		// but personally I'd rather get them directly from the Items 
+		// model dynamically in the real world
+		$columns = array(
+			"name",
+			"amount",
+			"unit",
+			"useByDate"
+		);
 
+		$data = $this->getFormattedData($columns);
+		foreach ($data as $item) {
+			$list->add(new Item(
+				$item->name,
+				$item->amount,
+				$item->unit,
+				$item->useByDate
+			));
+		}
+
+		return $list;
+	}
 }
