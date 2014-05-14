@@ -1,170 +1,63 @@
-Symfony Standard Edition
-========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+Recipe Finder
+========
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+### Excercise Instructions
 
-1) Installing the Standard Edition
-----------------------------------
+Given a list of items in the fridge (presented as a csv list), and a collection of recipes (a collection of JSON formatted recipes), produce a recommendation for what to cook tonight.
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+Program should be written to take two inputs; fridge csv list, and the json recipe data. How you choose to implement this is up to you; you can write a console application which takes input file names as command line args, or as a web page which takes input through a form.
 
-### Use Composer (*recommended*)
+The only rule is that it must run and return a valid result using the provided input data.
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+----------
 
-    curl -s http://getcomposer.org/installer | php
+### Installation
 
-Then, use the `create-project` command to generate a new Symfony application:
+Get the repository locally. Curl, git, wget all work, here is some code:
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
+> $ git clone https://github.com/franciscopreller/recipeFinder.git
 
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
+Navigate to the root directory and update all composer packages.
 
-### Download an Archive File
+> $ composer update
 
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
+At the end of the process, composer will ask for some final options, just hit enter to all of them. They are unecessary to run this application (I've chosen not to use a database for this demo, so no concerns there).
 
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+> *Don't have composer? Download it following the instructions on http://getcomposer.org/*
 
-    php composer.phar install
+Finally, you can check that Symfony2 has all its required settings by running the following command (please note, warnings may or may not affect your output):
 
-2) Checking your System Configuration
--------------------------------------
+> $ php app/check.php
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+All done!
 
-Execute the `check.php` script from the command line:
+---------
 
-    php app/check.php
+### Running the Recipe Finder
 
-The script returns a status code of `0` if all mandatory requirements are met,
-`1` otherwise.
+There are two ways to run the Recipe Finder, as a console application which takes actual files as input, or through the web application, which provides a GUI for all inputs.
 
-Access the `config.php` script from a browser:
+#### Run via Web Browser
 
-    http://localhost/path/to/symfony/app/web/config.php
+If you enjoy the luxury of PHP > 5.4 (which you should), you don't need to concern yourself with a proper web server, simply run the following command:
 
-If you get any warnings or recommendations, fix them before moving on.
+> $ php app/console server:run
 
-3) Browsing the Demo Application
---------------------------------
+You will notice the following output:
 
-Congratulations! You're now ready to use Symfony.
+> Server running on http://localhost:8000
 
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
+At this point, head to the provided address and take it from there, further instructions will be provided on the interface where necessary.
 
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
+#### Run via Console
 
-To see a real-live Symfony page in action, access the following page:
 
-    web/app_dev.php/demo/hello/Fabien
+----------
 
-4) Getting started with Symfony
--------------------------------
+### Testing
 
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
+The project was developed using TDD. The full suite of unit tests can be run by the following command from the root of the project:
 
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
-
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
-
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
-
-  * delete the `src/Acme` directory;
-
-  * remove the routing entry referencing AcmeDemoBundle in `app/config/routing_dev.yml`;
-
-  * remove the AcmeDemoBundle from the registered bundles in `app/AppKernel.php`;
-
-  * remove the `web/bundles/acmedemo` directory;
-
-  * empty the `security.yml` file or tweak the security configuration to fit
-    your needs.
-
-What's inside?
----------------
-
-The Symfony Standard Edition is configured with the following defaults:
-
-  * Twig is the only configured template engine;
-
-  * Doctrine ORM/DBAL is configured;
-
-  * Swiftmailer is configured;
-
-  * Annotations for everything are enabled.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.4/book/installation.html
-[2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.4/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.4/index.html
-[6]:  http://symfony.com/doc/2.4/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.4/book/doctrine.html
-[8]:  http://symfony.com/doc/2.4/book/templating.html
-[9]:  http://symfony.com/doc/2.4/book/security.html
-[10]: http://symfony.com/doc/2.4/cookbook/email.html
-[11]: http://symfony.com/doc/2.4/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.4/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.4/bundles/SensioGeneratorBundle/index.html
+> $ phpunit -c app src/FP/RecipeFinderBundle/
