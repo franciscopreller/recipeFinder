@@ -31,6 +31,10 @@ Finally, you can check that Symfony2 has all its required settings by running th
 
 > $ php app/check.php
 
+If you're building the project form source, you will need to install the assets from the bundle, Symfony2 makes this fairly straight forward though, simply use the following command:
+
+> $ php app/console assets:install web --symlink
+
 All done!
 
 ---------
@@ -53,6 +57,9 @@ At this point, head to the provided address and take it from there, further inst
 
 #### Run via Console
 
+It has it's own help file, see it for more details.
+
+> $ php app/console recipe:find --help
 
 ----------
 
@@ -61,3 +68,15 @@ At this point, head to the provided address and take it from there, further inst
 The project was developed using TDD. The full suite of unit tests can be run by the following command from the root of the project:
 
 > $ phpunit -c app src/FP/RecipeFinderBundle/
+
+----------
+
+### Final Notes
+
+This exercise was a lot of fun. Specially building the Container object which `ItemList` extends.
+
+If you have any questions, please do not hesitate to contact me on francisco.preller@gmail.com
+
+----
+
+#### Thanks, and Enjoy!
