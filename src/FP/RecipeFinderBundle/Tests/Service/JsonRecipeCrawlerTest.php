@@ -16,7 +16,7 @@ class JsonRecipeCrawlerTest extends \PHPUnit_Framework_TestCase
 		$list->add(new Item("cheese", 10, "slices", "25/12/2014"));
 		$list->add(new Item("butter", 250, "grams", "25/12/2014"));
 		$list->add(new Item("peanut butter", 250, "grams", "2/12/2014"));
-		$list->add(new Item("mixed salad", 500, "grams", "26/05/2014"));
+		$list->add(new Item("mixed salad", 500, "grams", "26/06/2014"));
 
 		// json string
 		$jsonRecipes = '
