@@ -1,0 +1,120 @@
+<div class="container">
+	<div class="col-md-12">
+		<h3>Ingredients</h3>
+		<hr>
+		<div class="well">
+			<div class="row">
+				<div class="col-md-4"><strong>Name</strong></div>
+				<div class="col-md-2"><strong>Amount</strong></div>
+				<div class="col-md-2"><strong>Unit</strong></div>
+				<div class="col-md-4"><strong>Expiry</strong></div>
+			</div>
+			<div class="row">
+				<br>
+			</div>
+			<div class="row" data-ng-repeat="ingredient in ingredients">
+				<div class="col-md-4">
+					<input type="text" class="form-control" data-ng-model="ingredient.name" placeholder="Enter Ingredient"/>
+				</div>
+				<div class="col-md-2">
+					<input type="number" class="form-control" data-ng-model="ingredient.amount"/>
+				</div>
+				<div class="col-md-2">
+					<input type="text" class="form-control" data-ng-model="ingredient.unit" placeholder="Enter Unit"/>
+				</div>
+				<div class="col-md-4">
+					<input type="text" class="form-control" data-ng-model="ingredient.useByDate" placeholder="Enter Expiry"/>
+				</div>
+			</div>
+		</div>
+		<div class="row text-right">
+			<div class="col-lg-12">
+				<button class="btn btn-primary" data-ng-click="addIngredient()">
+					<span class="glyphicon glyphicon-plus"></span> Add ingredient
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<hr>
+	</div>
+	<div class="col-md-12">
+		<h3>Recipes</h3>
+		<hr>
+		<div class="row">
+			<br>
+		</div>
+		<div class="row">
+			<div class="col-md-6" data-ng-repeat="recipe in recipes">
+				<div class="well">
+					<div class="row">
+						<div class="col-md-12">
+							<label class="control-label">Recipe</label>
+							<input type="text" class="form-control" 
+								data-ng-model="recipe.name" 
+								placeholder="Recipe"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+						<br>
+							<label class="control-label">Ingredients</label>
+						</div>
+					</div>
+					<div class="row" data-ng-repeat="ingredient in recipe.ingredients">
+						<div class="col-md-6">
+							<input type="text" class="form-control" 
+								data-ng-model="ingredient.item" 
+								placeholder="Item"/>
+						</div>
+						<div class="col-md-3">
+							<input type="number" class="form-control" 
+								data-ng-model="ingredient.amount"/>
+						</div>
+						<div class="col-md-3">
+							<input type="text" class="form-control" 
+								data-ng-model="ingredient.unit"
+								placeholder="Unit"/>
+						</div>
+					</div>
+					<div class="row text-right">
+						<div class="col-md-12">
+							<br>
+							<button class="btn btn-sm btn-primary" data-ng-click="addRecipeIngredient(recipe)">
+								<span class="glyphicon glyphicon-plus"></span> Add ingredient
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 text-right">
+				<button class="btn btn-primary" data-ng-click="addRecipe()">
+					<span class="glyphicon glyphicon-plus"></span> Add recipe
+				</button>
+			</div>
+		</div>
+		<div class="row">
+			<hr>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<br>
+	<div class="jumbotron text-center">
+		<div data-ng-hide="message">
+			<h1>Behold!</h1>
+			<br>
+			<a href="" class="btn btn-lg btn-success" data-ng-click="getSuggestedRecipe()">Get me my Recipe!</a>
+			<p><br>The button!</p>
+		</div>
+		<div data-ng-show="message">
+			<h1>Okay!</h1>
+			<br>
+			<p class="alert" data-ng-class="recipeFound ? 'alert-success' : 'alert-danger'">{{ message }}</p>
+			<br>
+			<a href="" class="btn btn-success" data-ng-click="reset()">Try Again</a>
+		</div>
+	</div>
+</div>
